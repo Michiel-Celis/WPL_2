@@ -22,6 +22,7 @@ namespace celis_michiel_c_sherp
     public partial class MainWindow : Window
     {
         private bool isMouseDown = false;
+        private int cookieCount = 0;
         public MainWindow()
         {
             InitializeComponent();
@@ -38,7 +39,9 @@ namespace celis_michiel_c_sherp
         private void CookieClick()
         {
             AnimateClick(CookieImage);
-            CookieCounter.Text = (int.Parse(CookieCounter.Text) + 1).ToString();
+            cookieCount++;
+            CookieCounter.Text = cookieCount.ToString();
+            this.Title = $"Cookie Clicker : {cookieCount}";
         }
 
         /// Animations
