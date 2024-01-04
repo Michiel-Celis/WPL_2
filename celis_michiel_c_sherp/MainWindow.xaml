@@ -40,7 +40,13 @@
             </Grid>
 
             <!-- Cookie Image -->
-            <Image Grid.Column="1" Margin="20" Source="cookie.png"/>
+            <Grid Grid.Column="1" Margin="20">
+                <Image x:Name="CookieImage" Source="/res/cookie.png"/>
+                <Border Grid.Column="1" CornerRadius="10" Background="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Padding="10">
+                    <TextBlock x:Name="CookieCounter" Text="0" MinWidth="100px" TextAlignment="Center"/>
+                </Border>
+            </Grid>
+
         </Grid>
 
         <!-- Bottom Row -->
@@ -66,8 +72,6 @@
                 <Button Grid.Column="2" Content="Power-ups" Height="100px"/>
                 <Button Grid.Column="3" Content="Achievements" Height="100px"/>
                 <Button Grid.Column="4" Content="level" Height="100px"/>
-                <Button Grid.Column="5" Content="Cookies : 0" Height="100px"/>
-
             </Grid>
         </Grid>
     </Grid>

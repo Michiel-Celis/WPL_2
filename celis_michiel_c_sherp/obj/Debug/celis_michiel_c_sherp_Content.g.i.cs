@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("background.jpeg")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("res/cookie.png")]
 
 
