@@ -8,7 +8,7 @@
         Title="Cookie Clicker" Height="500" Width="800" ResizeMode="NoResize" MinHeight="500" MinWidth="800">
 
     <!-- Window Content -->
-    <Grid>
+    <Grid MouseDown="Grid_MouseDown">
         <!-- Background -->
         <Grid.Background>
             <ImageBrush ImageSource="/res/background.jpeg" />
@@ -78,7 +78,7 @@
             </Grid>
         </Grid>
          <!-- Menu Overlay -->
-        <Grid x:Name="Overlay" Visibility="Hidden" Background="#AA000000" Height="400">
+        <Grid x:Name="Overlay" Visibility="Hidden" Background="#00000000" Height="400" MouseDown="Overlay_MouseDown">
             <Grid Width="400" Height="400" Background="White" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
