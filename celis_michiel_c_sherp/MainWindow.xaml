@@ -116,7 +116,7 @@
                                             <TextBlock Grid.Column="0" Text="{Binding Title}" FontSize="18"/>
                                             <TextBlock Grid.Column="1" Text="{Binding Price}" FontSize="18"/>
                                             <TextBlock Grid.Column="2" Text="{Binding Purchased}" FontSize="18"/>
-                                            <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Description}" FontSize="18"/>
+                                            <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Description}" FontSize="14"/>
                                         </Grid>
                                     </Grid>
                                 </Button>

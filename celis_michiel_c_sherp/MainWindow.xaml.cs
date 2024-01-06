@@ -117,7 +117,7 @@ namespace celis_michiel_c_sherp
 				}
 			}
 			
-			public int CookiesPerSecond { get; set; }
+			public double CookiesPerSecond { get; set; }
 			public int initPrice;
 			private int price;
 			public int Price
@@ -183,17 +183,17 @@ namespace celis_michiel_c_sherp
 		/// Upgrades can be bought multiple times.	
         List<MenuItem> upgradesList = new List<MenuItem>
         {
-            new MenuItem { Logo = "/res/cursor.png"         , Title = "Cursor"      	, CookiesPerSecond = 1		, initPrice = 10	, Price = 10     	, Purchased = 0 	, ButtonVisibility = Visibility.Visible	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/grandma.png"        , Title = "Grandma"     	, CookiesPerSecond = 5		, initPrice = 500	, Price = 500    	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/farm.png"           , Title = "Farm"        	, CookiesPerSecond = 10		, initPrice = 1000	, Price = 1000   	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/mine.png"           , Title = "Mine"        	, CookiesPerSecond = 20		, initPrice = 2000	, Price = 2000   	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/factory.png"        , Title = "Factory"     	, CookiesPerSecond = 50		, initPrice = 5000	, Price = 5000    	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/bank.png"           , Title = "Bank"        	, CookiesPerSecond = 100	, initPrice = 10000	, Price = 10000   	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/temple.png"         , Title = "Temple"      	, CookiesPerSecond = 200	, initPrice = 20000	, Price = 20000   	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/wizard-tower.png"   , Title = "Wizard Tower"	, CookiesPerSecond = 500	, initPrice = 50000	, Price = 50000   	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/shipment.png"       , Title = "Shipment"    	, CookiesPerSecond = 1000	, initPrice = 100000, Price = 10000  	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/alchemylab.png"     , Title = "Alchemy Lab" 	, CookiesPerSecond = 2000	, initPrice = 200000, Price = 20000  	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/portal.png"         , Title = "Portal"      	, CookiesPerSecond = 5000	, initPrice = 500000, Price = 50000  	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false }
+            new MenuItem { Logo = "/res/cursor.png"         , Title = "Cursor"      	, CookiesPerSecond = 0.1	, initPrice = 15		, Purchased = 0 	, ButtonVisibility = Visibility.Visible	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/grandma.png"        , Title = "Grandma"     	, CookiesPerSecond = 1		, initPrice = 100		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/farm.png"           , Title = "Farm"        	, CookiesPerSecond = 8		, initPrice = 1100		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/mine.png"           , Title = "Mine"        	, CookiesPerSecond = 47		, initPrice = 12000		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/factory.png"        , Title = "Factory"     	, CookiesPerSecond = 260	, initPrice = 130000	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/bank.png"           , Title = "Bank"        	, CookiesPerSecond = 500	, initPrice = 200000	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/temple.png"         , Title = "Temple"      	, CookiesPerSecond = 1000	, initPrice = 500000	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/wizard-tower.png"   , Title = "Wizard Tower"	, CookiesPerSecond = 5000	, initPrice = 1000000	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/shipment.png"       , Title = "Shipment"    	, CookiesPerSecond = 10000	, initPrice = 20000000	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/alchemylab.png"     , Title = "Alchemy Lab" 	, CookiesPerSecond = 20000	, initPrice = 50000000 	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/portal.png"         , Title = "Portal"      	, CookiesPerSecond = 500000	, initPrice = 100000000	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false }
         };
 		/// Power-ups
 		/// Power-ups can only be bought once.
@@ -365,13 +365,13 @@ namespace celis_michiel_c_sherp
 				if (item.Purchased > 0)
 				{
 					// Calculate the number of cookies a single purchase adds per second
-					int cookiesPerSecondSingle = item.CookiesPerSecond * amplificationFactor;
+					double cookiesPerSecondSingle = item.CookiesPerSecond * amplificationFactor;
 
 					// Add this number to the total cookie count
 					CookieClick(cookiesPerSecondSingle * item.Purchased);
 
 					// Calculate the total number of cookies this item is currently adding per second
-					int cookiesPerSecondTotal = cookiesPerSecondSingle * item.Purchased;
+					double cookiesPerSecondTotal = cookiesPerSecondSingle * item.Purchased;
 
 					// Update the item's description
 					item.Description = $"Add {cookiesPerSecondSingle} cookies/second";
