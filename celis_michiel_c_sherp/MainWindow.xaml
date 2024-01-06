@@ -90,16 +90,20 @@
                         <DataTemplate>
                             <Button Width="364" Margin="4" 
                                     Visibility="{Binding ButtonVisibility}" 
-                                    IsEnabled="{Binding ButtonIsEnabled}">
+                                    IsEnabled="{Binding ButtonIsEnabled}"
+                                    Command="{Binding PurchaseCommand}"
+                                    CommandParameter="{Binding}">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="64"/>
-                                        <ColumnDefinition Width="150"/>
-                                        <ColumnDefinition Width="150"/>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="50"/>
                                     </Grid.ColumnDefinitions>
                                     <Image Grid.Column="0" Source="{Binding Logo}" Width="64" Height="64"/>
                                     <TextBlock Grid.Column="1" Text="{Binding Title}" FontSize="18"/>
                                     <TextBlock Grid.Column="2" Text="{Binding Price}" FontSize="18"/>
+                                    <TextBlock Grid.Column="3" Text="{Binding PurchaseCount}" FontSize="18"/>
                                 </Grid>
                             </Button>
                         </DataTemplate>
