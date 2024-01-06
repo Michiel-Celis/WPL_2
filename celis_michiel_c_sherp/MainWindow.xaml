@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="Cookie Clicker" Height="500" Width="800" ResizeMode="NoResize" MinHeight="500" MinWidth="800">
 
+
     <!-- Window Content -->
     <Grid MouseDown="Grid_MouseDown">
         <!-- Background -->
@@ -77,6 +78,8 @@
                 <Button Grid.Column="4" Content="level" Height="100px"/>
             </Grid>
         </Grid>
+
+
          <!-- Menu Overlay -->
         <Grid x:Name="Overlay" Visibility="Hidden" Background="#00000000" Height="400" MouseDown="Overlay_MouseDown">
             <Grid Width="400" Height="400" Background="White" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -90,16 +93,20 @@
                         <DataTemplate>
                             <Button Width="364" Margin="4" 
                                     Visibility="{Binding ButtonVisibility}" 
-                                    IsEnabled="{Binding ButtonIsEnabled}">
+                                    IsEnabled="{Binding ButtonIsEnabled}"
+                                    DataContext="{Binding}"
+                                    Click="OnButtonClick">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="64"/>
-                                        <ColumnDefinition Width="150"/>
-                                        <ColumnDefinition Width="150"/>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="50"/>
                                     </Grid.ColumnDefinitions>
                                     <Image Grid.Column="0" Source="{Binding Logo}" Width="64" Height="64"/>
                                     <TextBlock Grid.Column="1" Text="{Binding Title}" FontSize="18"/>
                                     <TextBlock Grid.Column="2" Text="{Binding Price}" FontSize="18"/>
+                                    <TextBlock Grid.Column="3" Text="{Binding Purchased}" FontSize="18"/>
                                 </Grid>
                             </Button>
                         </DataTemplate>
