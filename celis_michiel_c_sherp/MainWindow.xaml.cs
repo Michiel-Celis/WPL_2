@@ -90,6 +90,34 @@ namespace celis_michiel_c_sherp
         {
             public string Logo { get; set; }
             public string Title { get; set; }
+			private string description;
+			public string Description
+			{
+				get { return description; }
+				set
+				{
+					if (description != value)
+					{
+						description = value;
+						OnPropertyChanged(nameof(Description));
+					}
+				}
+			}
+			private string descriptionTooltip;
+			public string DescriptionTooltip
+			{
+				get { return descriptionTooltip; }
+				set
+				{
+					if (descriptionTooltip != value)
+					{
+						descriptionTooltip = value;
+						OnPropertyChanged(nameof(DescriptionTooltip));
+					}
+				}
+			}
+			
+			public int CookiesPerSecond { get; set; }
 			public int initPrice;
 			private int price;
 			public int Price
@@ -151,27 +179,42 @@ namespace celis_michiel_c_sherp
 			}
 
         }
+		/// Upgrades
+		/// Upgrades can be bought multiple times.	
         List<MenuItem> upgradesList = new List<MenuItem>
         {
-            new MenuItem { Logo = "/res/cursor.png"         , Title = "Cursor"      , initPrice = 10	, Price = 10     	, Purchased = 0 	, ButtonVisibility = Visibility.Visible	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/grandma.png"        , Title = "Grandma"     , initPrice = 50	, Price = 50    	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/farm.png"           , Title = "Farm"        , initPrice = 100	, Price = 100   	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/mine.png"           , Title = "Mine"        , initPrice = 200	, Price = 200   	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/factory.png"        , Title = "Factory"     , initPrice = 500	, Price = 500    	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/bank.png"           , Title = "Bank"        , initPrice = 1000	, Price = 1000   	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/temple.png"         , Title = "Temple"      , initPrice = 2000	, Price = 2000   	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/wizard-tower.png"   , Title = "Wizard Tower", initPrice = 5000	, Price = 5000   	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/shipment.png"       , Title = "Shipment"    , initPrice = 10000	, Price = 10000  	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/alchemylab.png"     , Title = "Alchemy Lab" , initPrice = 20000	, Price = 20000  	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/portal.png"         , Title = "Portal"      , initPrice = 50000	, Price = 50000  	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false }
+            new MenuItem { Logo = "/res/cursor.png"         , Title = "Cursor"      	, CookiesPerSecond = 1		, initPrice = 10	, Price = 10     	, Purchased = 0 	, ButtonVisibility = Visibility.Visible	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/grandma.png"        , Title = "Grandma"     	, CookiesPerSecond = 5		, initPrice = 500	, Price = 500    	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/farm.png"           , Title = "Farm"        	, CookiesPerSecond = 10		, initPrice = 1000	, Price = 1000   	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/mine.png"           , Title = "Mine"        	, CookiesPerSecond = 20		, initPrice = 2000	, Price = 2000   	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/factory.png"        , Title = "Factory"     	, CookiesPerSecond = 50		, initPrice = 5000	, Price = 5000    	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/bank.png"           , Title = "Bank"        	, CookiesPerSecond = 100	, initPrice = 10000	, Price = 10000   	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/temple.png"         , Title = "Temple"      	, CookiesPerSecond = 200	, initPrice = 20000	, Price = 20000   	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/wizard-tower.png"   , Title = "Wizard Tower"	, CookiesPerSecond = 500	, initPrice = 50000	, Price = 50000   	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/shipment.png"       , Title = "Shipment"    	, CookiesPerSecond = 1000	, initPrice = 100000, Price = 10000  	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/alchemylab.png"     , Title = "Alchemy Lab" 	, CookiesPerSecond = 2000	, initPrice = 200000, Price = 20000  	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/portal.png"         , Title = "Portal"      	, CookiesPerSecond = 5000	, initPrice = 500000, Price = 50000  	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false }
         };
+		/// Power-ups
+		/// Power-ups can only be bought once.
+		/// they appear when their corresponding Upgrade has been bought 50 times.
         List<MenuItem> powerUpsList = new List<MenuItem>
         {
-            new MenuItem { Logo = "/res/cursor.png"			, Title = "Cursor"		, initPrice = 10	, Price = 10 		, Purchased = 0 	, ButtonVisibility = Visibility.Visible	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/grandma.png"		, Title = "Grandma"		, initPrice = 10	, Price = 50 		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/farm.png"			, Title = "Farm"		, initPrice = 10	, Price = 100 		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/mine.png"			, Title = "Mine"		, initPrice = 10	, Price = 2000 		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false }
+            new MenuItem { Logo = "/res/cursor.png"			, Title = "Parkinson Clicks", Description = "Cursors are twice as Speedy"		, Price = 10 		, Purchased = 0 	, ButtonVisibility = Visibility.Visible	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/grandma.png"		, Title = "Gym Grandmas"	, Description = "Grandmas are twice as powerfull"	, Price = 50 		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/farm.png"			, Title = "Robot Farms"		, Description = "Farms are twice as Cookiefull"		, Price = 100 		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/mine.png"			, Title = "Miner Grandmas"	, Description = "Mines are twice as rich"			, Price = 2000 		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+			new MenuItem { Logo = "/res/factory.png"		, Title = "Slave Factories"	, Description = "Factory are twice as productive"	, Price = 2000 		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+			new MenuItem { Logo = "/res/bank.png"			, Title = "Inflation scammu", Description = "Banks are twice as Effective"		, Price = 2000 		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+			new MenuItem { Logo = "/res/temple.png"			, Title = "The Holy Book"	, Description = "Temples are twice as Subdueing"	, Price = 2000 		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+			new MenuItem { Logo = "/res/wizard-tower.png"	, Title = "Magic Powder"	, Description = "Wizards are twice as Hyped"		, Price = 2000 		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+			new MenuItem { Logo = "/res/shipment.png"		, Title = "Amazon.com"		, Description = "Shipments are twice as fast"		, Price = 2000 		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+			new MenuItem { Logo = "/res/alchemylab.png"		, Title = "Love Molecule"	, Description = "Labs are twice as wonderfull"		, Price = 2000 		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+			new MenuItem { Logo = "/res/portal.png"			, Title = "Stargate Crew"	, Description = "Portals are twice as Portaly"		, Price = 2000 		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false }
         };
+		/// Achievements
+		/// Achievements can not be bought.
+		/// they appear when requirements are met.
         List<MenuItem> achievementsList = new List<MenuItem>
         {
             new MenuItem { Logo = "/res/cursor.png"			, Title = "Cursor"		, initPrice = 10	, Price = 10 		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
@@ -215,11 +258,20 @@ namespace celis_michiel_c_sherp
         }
 
         /// Event Actions
-        /// CookieClick
-        private void CookieClick()
+        /// Manual CookieClick
+		private void CookieClick()
+		{
+			// Get the number of cursors purchased
+			int cursorsPurchased = upgradesList[0].Purchased;
+
+			// Multiply the number of cookies added by the number of cursors purchased
+			CookieClick(1 + (int)(cursorsPurchased / 10));
+		}
+		// Time CookieClick
+        private void CookieClick(int cookiesToAdd)
         {
             AnimateClick(CookieImage);
-            cookieCount++;
+            cookieCount += cookiesToAdd;
             CookieCounter.Text = cookieCount.ToString();
             this.Title = $"Cookie Clicker : {cookieCount}";
 
@@ -286,21 +338,45 @@ namespace celis_michiel_c_sherp
 		}
 		private void Timer_Tick(object sender, EventArgs e)
 		{
-			// Perform the calculation for each item in each list
-			CalculateCookies(upgradesList);
-			CalculateCookies(powerUpsList);
-			CalculateCookies(achievementsList);
+			// Calculate the total amplification factor from the power-ups
+			int amplificationFactor = CalculateAmplificationFactor(powerUpsList);
 
-			// Update the cookie count
-    		CookieClick();
+			// Perform the calculation for each item in the upgrades list
+			CalculateCookies(upgradesList, amplificationFactor);
 		}
 
-		private void CalculateCookies(List<MenuItem> items)
+		private int CalculateAmplificationFactor(List<MenuItem> items)
+		{
+			int amplificationFactor = 1;
+
+			foreach (var item in items)
+			{
+				// Add 2 to the amplification factor for each purchased power-up
+				amplificationFactor += item.Purchased * 2;
+			}
+
+			return amplificationFactor;
+		}
+
+		private void CalculateCookies(List<MenuItem> items, int amplificationFactor)
 		{
 			foreach (var item in items)
 			{
-				// Add ((init price/100) * purchased ) to cookies
-				cookieCount += (int)(item.initPrice / 50) * item.Purchased;
+				if (item.Purchased > 0)
+				{
+					// Calculate the number of cookies a single purchase adds per second
+					int cookiesPerSecondSingle = item.CookiesPerSecond * amplificationFactor;
+
+					// Add this number to the total cookie count
+					CookieClick(cookiesPerSecondSingle * item.Purchased);
+
+					// Calculate the total number of cookies this item is currently adding per second
+					int cookiesPerSecondTotal = cookiesPerSecondSingle * item.Purchased;
+
+					// Update the item's description
+					item.Description = $"Add {cookiesPerSecondSingle} cookies/second";
+					item.DescriptionTooltip = $"Generates {cookiesPerSecondTotal} cookies per second.";
+				}
 			}
 		}
 
