@@ -15,12 +15,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Media.Animation;
+using System.Windows.Threading;
 
 namespace celis_michiel_c_sherp
 {
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         /// Declarations
+		DispatcherTimer timer = new DispatcherTimer();
 		private int cookieCount;
 		public int CookieCount
 		{
@@ -163,7 +165,6 @@ namespace celis_michiel_c_sherp
             new MenuItem { Logo = "/res/alchemylab.png"     , Title = "Alchemy Lab" , initPrice = 20000	, Price = 20000  	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
             new MenuItem { Logo = "/res/portal.png"         , Title = "Portal"      , initPrice = 50000	, Price = 50000  	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false }
         };
-
         List<MenuItem> powerUpsList = new List<MenuItem>
         {
             new MenuItem { Logo = "/res/cursor.png"			, Title = "Cursor"		, initPrice = 10	, Price = 10 		, Purchased = 0 	, ButtonVisibility = Visibility.Visible	, ButtonIsEnabled = false },
@@ -183,8 +184,9 @@ namespace celis_michiel_c_sherp
         public MainWindow()
         {
             InitializeComponent();
-			DataContext = this;
+
             /// Declarations
+			DataContext = this;
             /// Menu button Declaration
             lastClickedButton = hiddenButton;
 
@@ -202,6 +204,14 @@ namespace celis_michiel_c_sherp
             CookieImage.MouseUp += (s, e) => isMouseDown = false;
             CookieImage.MouseEnter += (s, e) => { if (isMouseDown) CookieClick(); };
 
+			// Set the timer interval to one second
+			timer.Interval = TimeSpan.FromSeconds(1);
+
+			// Add an event handler for the timer tick event
+			timer.Tick += Timer_Tick;
+
+			// Start the timer
+			timer.Start();
         }
 
         /// Event Actions
@@ -274,7 +284,25 @@ namespace celis_michiel_c_sherp
 			PurchaseUpgrade(menuItem);
 			Debug.WriteLine("Button click handled.");
 		}
+		private void Timer_Tick(object sender, EventArgs e)
+		{
+			// Perform the calculation for each item in each list
+			CalculateCookies(upgradesList);
+			CalculateCookies(powerUpsList);
+			CalculateCookies(achievementsList);
 
+			// Update the cookie count
+    		CookieClick();
+		}
+
+		private void CalculateCookies(List<MenuItem> items)
+		{
+			foreach (var item in items)
+			{
+				// Add ((init price/100) * purchased ) to cookies
+				cookieCount += (int)(item.initPrice / 50) * item.Purchased;
+			}
+		}
 
 
 
