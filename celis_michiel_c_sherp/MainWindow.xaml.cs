@@ -55,7 +55,7 @@ namespace celis_michiel_c_sherp
 				menuItem.Purchased++;
 
 				// Increase the price of the upgrade.
-				menuItem.Price = (int)(menuItem.initPrice * Math.Pow(1.15, menuItem.Purchased));
+				menuItem.Price = (int)Math.Ceiling(menuItem.initPrice * Math.Pow(1.15, menuItem.Purchased));
 
 				// Update the enabled state of the buttons.
 				UpdateButtonStates();
