@@ -369,7 +369,7 @@ namespace celis_michiel_c_sherp
 
 			foreach (var item in items)
 			{
-				// Add 2 to the amplification factor for each purchased power-up
+				// Add 2 to the amplification factor for each purchased power-up-
 				amplificationFactor += item.Purchased * 2;
 			}
 
