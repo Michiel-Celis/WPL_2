@@ -606,6 +606,11 @@ namespace celis_michiel_c_sherp
 		{
 			string[] suffixes = { "", " Miljoen", " Miljard", " Biljoen", " Biljard", " Triljoen" };
 
+			if (number < 1000000 && number > 1000)
+			{
+				return string.Format("{0:n0}", number).Replace(",", " ");
+			}
+
 			int suffixIndex = 0;
 			while (number >= 1000 && suffixIndex < suffixes.Length - 1)
 			{
