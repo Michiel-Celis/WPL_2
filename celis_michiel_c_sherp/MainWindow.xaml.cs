@@ -23,10 +23,13 @@ namespace celis_michiel_c_sherp
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
 		/// Declarations
+		/// Timers
 		DispatcherTimer timerCalc = new DispatcherTimer();
 		DispatcherTimer timerAnim = new DispatcherTimer();
 		private Stopwatch gameTimer = new Stopwatch();
-
+		/// Constants
+		private const double PriceIncreaseFactor = 1.15;
+		/// Properties
 		private double cookieCount;
 		public double CookieCount
 		{
@@ -41,13 +44,13 @@ namespace celis_michiel_c_sherp
 			}
 		}
         private bool isMouseDown = false;
-
+		/// Property Changed
 		public event PropertyChangedEventHandler PropertyChanged;
 		protected virtual void OnPropertyChanged(string propertyName)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
-
+		/// Methods
 		public void PurchaseUpgrade(MenuItem menuItem)
 		{
 			// Check if menuItem is null
@@ -67,7 +70,7 @@ namespace celis_michiel_c_sherp
 				menuItem.Purchased++;
 
 				// Increase the price of the upgrade.
-				menuItem.Price = (int)Math.Ceiling(menuItem.initPrice * Math.Pow(1.15, menuItem.Purchased));
+				menuItem.Price = (int)Math.Ceiling(menuItem.InitPrice * Math.Pow(PriceIncreaseFactor, menuItem.Purchased));
 
 				// Update the enabled state of the buttons.
 				UpdateButtonStates();
@@ -80,7 +83,6 @@ namespace celis_michiel_c_sherp
 		}
 		public void PurchasePowerup(MenuItem menuItem)
 		{
-			Debug.WriteLine("PurchasePowerup");
 			// If this MenuItem has already been purchased, return without doing anything.
 			if (menuItem.Purchased > 0)
 			{
@@ -115,8 +117,8 @@ namespace celis_michiel_c_sherp
 			}
 		}
 		
-
-
+		/// Menu
+		/// Update the visibility of the menu items.
 		public void UpdateMenuItemVisibility()
 		{
 			// Update the visibility of the first item.
@@ -137,17 +139,16 @@ namespace celis_michiel_c_sherp
 			// Refresh the ItemsSource of the ListBox.
 			MenuItems.Items.Refresh();
 		}
-
         /// Menu Buttons
         private Button hiddenButton = new Button { Visibility = Visibility.Hidden };
         private Button lastClickedButton;
         private Dictionary<Button, (string, List<MenuItem>)> buttonParameters;
 
         /// Menu Items
-        public class MenuItem : INotifyPropertyChanged
-        {
-            public string Logo { get; set; }
-            public string Title { get; set; }
+		public class MenuItem : INotifyPropertyChanged
+		{
+			public string Logo { get; set; }
+			public string Title { get; set; }
 			private string description;
 			public string Description
 			{
@@ -174,9 +175,9 @@ namespace celis_michiel_c_sherp
 					}
 				}
 			}
-			
+
 			public double CookiesPerSecond { get; set; }
-			public int initPrice;
+			public int InitPrice { get; set; }
 			private int price;
 			public int Price
 			{
@@ -190,14 +191,17 @@ namespace celis_michiel_c_sherp
 					}
 				}
 			}
-			private bool _isPurchasable = true;
+			private bool isPurchasable = true;
 			public bool IsPurchasable
 			{
-				get { return _isPurchasable; }
+				get { return isPurchasable; }
 				set
 				{
-					_isPurchasable = value;
-					OnPropertyChanged(nameof(IsPurchasable));
+					if (isPurchasable != value)
+					{
+						isPurchasable = value;
+						OnPropertyChanged(nameof(IsPurchasable));
+					}
 				}
 			}
 			private int purchased;
@@ -213,37 +217,35 @@ namespace celis_michiel_c_sherp
 					}
 				}
 			}
-			private bool _isPowerup = false;
-
+			private bool isPowerup = false;
 			public bool IsPowerup
 			{
-				get { return _isPowerup; }
+				get { return isPowerup; }
 				set
 				{
-					if (_isPowerup != value)
+					if (isPowerup != value)
 					{
-						_isPowerup = value;
-						OnPropertyChanged("IsPowerup");
+						isPowerup = value;
+						OnPropertyChanged(nameof(IsPowerup));
 					}
 				}
 			}
 
-			private bool _isAchievement = false;
+			private bool isAchievement = false;
 			public bool IsAchievement
 			{
-				get { return _isAchievement; }
+				get { return isAchievement; }
 				set
 				{
-					if (_isAchievement != value)
+					if (isAchievement != value)
 					{
-						_isAchievement = value;
-						OnPropertyChanged("IsAchievement");
+						isAchievement = value;
+						OnPropertyChanged(nameof(IsAchievement));
 					}
 				}
 			}
 
-			
-            private Visibility buttonVisibility;
+			private Visibility buttonVisibility;
 			public Visibility ButtonVisibility
 			{
 				get { return buttonVisibility; }
@@ -256,7 +258,7 @@ namespace celis_michiel_c_sherp
 					}
 				}
 			}
-            private bool buttonIsEnabled;
+			private bool buttonIsEnabled;
 			public bool ButtonIsEnabled
 			{
 				get { return buttonIsEnabled; }
@@ -275,23 +277,24 @@ namespace celis_michiel_c_sherp
 			{
 				PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
 
-        }
+		/// Menu Lists
 		/// Upgrades
 		/// Upgrades can be bought multiple times.	
         List<MenuItem> upgradesList = new List<MenuItem>
         {
-            new MenuItem { Logo = "/res/cursor.png"         , Title = "Cursor"      	, CookiesPerSecond = 0.1	, initPrice = 15		, Price = 15		, Purchased = 0 	, ButtonVisibility = Visibility.Visible	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/grandma.png"        , Title = "Grandma"     	, CookiesPerSecond = 1		, initPrice = 100		, Price = 100		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/farm.png"           , Title = "Farm"        	, CookiesPerSecond = 8		, initPrice = 1100		, Price = 1100		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/mine.png"           , Title = "Mine"        	, CookiesPerSecond = 47		, initPrice = 12000		, Price = 12000		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/factory.png"        , Title = "Factory"     	, CookiesPerSecond = 260	, initPrice = 130000	, Price = 130000	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/bank.png"           , Title = "Bank"        	, CookiesPerSecond = 500	, initPrice = 200000	, Price = 200000	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/temple.png"         , Title = "Temple"      	, CookiesPerSecond = 1000	, initPrice = 500000	, Price = 500000	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/wizardtower.png"  	, Title = "WizardTower"		, CookiesPerSecond = 5000	, initPrice = 1000000	, Price = 1000000	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/shipment.png"       , Title = "Shipment"    	, CookiesPerSecond = 10000	, initPrice = 20000000	, Price = 20000000	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/alchemylab.png"     , Title = "AlchemyLab" 		, CookiesPerSecond = 20000	, initPrice = 50000000 	, Price = 50000000 	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/portal.png"         , Title = "Portal"      	, CookiesPerSecond = 500000	, initPrice = 100000000	, Price = 100000000	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false }
+            new MenuItem { Logo = "/res/cursor.png"         , Title = "Cursor"      	, CookiesPerSecond = 0.1	, InitPrice = 15		, Price = 15		, Purchased = 0 	, ButtonVisibility = Visibility.Visible	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/grandma.png"        , Title = "Grandma"     	, CookiesPerSecond = 1		, InitPrice = 100		, Price = 100		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/farm.png"           , Title = "Farm"        	, CookiesPerSecond = 8		, InitPrice = 1100		, Price = 1100		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/mine.png"           , Title = "Mine"        	, CookiesPerSecond = 47		, InitPrice = 12000		, Price = 12000		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/factory.png"        , Title = "Factory"     	, CookiesPerSecond = 260	, InitPrice = 130000	, Price = 130000	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/bank.png"           , Title = "Bank"        	, CookiesPerSecond = 500	, InitPrice = 200000	, Price = 200000	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/temple.png"         , Title = "Temple"      	, CookiesPerSecond = 1000	, InitPrice = 500000	, Price = 500000	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/wizardtower.png"  	, Title = "WizardTower"		, CookiesPerSecond = 5000	, InitPrice = 1000000	, Price = 1000000	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/shipment.png"       , Title = "Shipment"    	, CookiesPerSecond = 10000	, InitPrice = 20000000	, Price = 20000000	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/alchemylab.png"     , Title = "AlchemyLab" 		, CookiesPerSecond = 20000	, InitPrice = 50000000 	, Price = 50000000 	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/portal.png"         , Title = "Portal"      	, CookiesPerSecond = 500000	, InitPrice = 100000000	, Price = 100000000	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false }
         };
 		/// Power-ups
 		/// Power-ups can only be bought once.
@@ -319,7 +322,7 @@ namespace celis_michiel_c_sherp
 			new MenuItem { Logo = "/res/smiley.png"			, Title = "Fast Clicker"	, IsAchievement = true		, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false }
         };
 
-
+		/// Constructor
         public MainWindow()
         {
             InitializeComponent();
@@ -362,27 +365,9 @@ namespace celis_michiel_c_sherp
 
         }
 
-        /// Event Actions
-        /// Manual CookieClick
-		private void CookieClick()
-		{
-			// Get the number of cursors purchased
-			int cursorsPurchased = upgradesList[0].Purchased;
 
-			// Multiply the number of cookies added by the number of cursors purchased
-			CookieClick(1 + (int)(cursorsPurchased / 10));
-			AnimateClick(CookieImage);
-		}
-		// Time CookieClick
-        private void CookieClick(double cookiesToAdd)
-        {
-            cookieCount += cookiesToAdd;
-            CookieCounter.Text = Math.Round(cookieCount,2).ToString();
-            this.Title = $"Cookie Clicker : {Math.Round(cookieCount,2)}";
-
-			UpdateButtonStates();
-        }
-        /// MenuActions
+        /// General Event Actions		
+		/// MenuActions
         private void ShowMenu(Button clickedButton,string header, List<MenuItem> items)
         {
             MenuHeader.Text = header;
@@ -427,6 +412,7 @@ namespace celis_michiel_c_sherp
 				}
 			}
 		}
+		/// Purchase handler
 		private void PurchaseItem(object sender, RoutedEventArgs e)
 		{
 			// Get the button that was clicked.
@@ -453,9 +439,8 @@ namespace celis_michiel_c_sherp
 				PurchaseUpgrade(menuItem);
 			}
 		}
-
+		
 		/// 3x3 Grid Functions
-		/// 
 		private void GridButton_Click(object sender, RoutedEventArgs e)
 		{
 			// Get the button that was clicked.
@@ -501,6 +486,8 @@ namespace celis_michiel_c_sherp
 				}
 			}
 		}
+		
+		/// Timer actions
 		private void Timer_Tick(object sender, EventArgs e)
 		{
 			// Calculate the total amplification factor from the power-ups
@@ -526,6 +513,28 @@ namespace celis_michiel_c_sherp
 
 			CheckAchievements();
 		}
+        
+		/// Result of actions
+		/// Manual CookieClick
+		private void CookieClick()
+		{
+			// Get the number of cursors purchased
+			int cursorsPurchased = upgradesList[0].Purchased;
+
+			// Multiply the number of cookies added by the number of cursors purchased
+			CookieClick(1 + (int)(cursorsPurchased / 10));
+			AnimateClick(CookieImage);
+		}
+		// Timer CookieClick
+        private void CookieClick(double cookiesToAdd)
+        {
+            cookieCount += cookiesToAdd;
+            CookieCounter.Text = Math.Round(cookieCount,2).ToString();
+            this.Title = $"Cookie Clicker : {Math.Round(cookieCount,2)}";
+
+			UpdateButtonStates();
+        }
+		/// Calculations
 		private int CalculateAmplificationFactor(List<MenuItem> items)
 		{
 			int amplificationFactor = 1;
@@ -591,7 +600,10 @@ namespace celis_michiel_c_sherp
 				}
 			}
 		}
-        /// Animations
+        
+		
+		
+		/// Animations
         private void AnimateClick(Image image)
         {
             var animation = new DoubleAnimation
