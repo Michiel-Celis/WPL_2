@@ -75,7 +75,7 @@
                 <Button x:Name="UpgradesButton" Grid.Column="1" Content="Upgrades" Height="100px" Click="UpgradesButton_Click"/>
                 <Button x:Name="PowerUpsButton" Grid.Column="2" Content="Power-ups" Height="100px" Click="PowerUpsButton_Click"/>
                 <Button x:Name="AchievementsButton" Grid.Column="3" Content="Achievements" Height="100px" Click="AchievementsButton_Click"/>
-                <Button Grid.Column="4" Content="level" Height="100px"/>
+                <Button x:Name="TotalCookiesPerSecondLabel" Grid.Column="4" Content="{Binding TotalCookiesPerSecond}" Height="100px"/>
             </Grid>
         </Grid>
 

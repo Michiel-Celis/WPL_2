@@ -259,6 +259,7 @@ namespace celis_michiel_c_sherp
 			// Start the timer
 			timerCalc.Start();
 			timerAnim.Start();
+
         }
 
         /// Event Actions
@@ -349,7 +350,14 @@ namespace celis_michiel_c_sherp
 		}
 		private void Timer_Click(object sender, EventArgs e)
 		{
-			// Check if any item in powerUpsList has been purchased
+			// Calculate the total amplification factor from the power-ups
+			int amplificationFactor = CalculateAmplificationFactor(powerUpsList);
+
+			// Calculate the total cookies per second considering both the upgrades purchased and the amplification factor
+			double totalCookiesPerSecond = upgradesList.Sum(item => item.Purchased * item.CookiesPerSecond * amplificationFactor);
+			TotalCookiesPerSecondLabel.Content = totalCookiesPerSecond.ToString();
+
+			// Check if any item in upgradesList has been purchased
 			if (upgradesList.Any(item => item.Purchased > 0))
 			{
 				AnimateClick(CookieImage);
