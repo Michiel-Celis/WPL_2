@@ -630,6 +630,15 @@ namespace celis_michiel_c_sherp
 				BakeryTitle.Text = dialog.Response;
 			}
 		}
+
+		private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			// Calculate the new height to maintain the aspect ratio
+			double newHeight = this.Width * (500.0 / 800.0);
+
+			// Set the new height
+			this.Height = newHeight;
+		}
 		
 		/// Animations
         private void AnimateClick(Image image)
