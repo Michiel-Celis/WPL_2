@@ -129,7 +129,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Border Grid.Row="0" CornerRadius="10" Background="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Padding="10">
-                    <TextBox x:Name="BakeryTitle" Text="PXL-Bakery" HorizontalAlignment="Center" BorderThickness="0"/>
+                    <TextBox x:Name="BakeryTitle" Text="PXL-Bakery" HorizontalAlignment="Center" BorderThickness="0" PreviewMouseLeftButtonDown="BakeryTitle_MouseLeftButtonDown"/>
                 </Border>
                 <Image x:Name="CookieImage" Source="/res/cookie.png" Width="200" Grid.Row="1"/>
                 <Border Grid.Row="1" CornerRadius="10" Background="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Padding="10">

@@ -620,6 +620,16 @@ namespace celis_michiel_c_sherp
 
 			return $"{number:0.##}{suffixes[suffixIndex]}";
 		}
+
+		private void BakeryTitle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			var dialog = new InputDialog();
+
+			if (dialog.ShowDialog() == true)
+			{
+				BakeryTitle.Text = dialog.Response;
+			}
+		}
 		
 		/// Animations
         private void AnimateClick(Image image)
