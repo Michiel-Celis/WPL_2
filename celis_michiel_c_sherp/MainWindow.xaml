@@ -234,6 +234,13 @@
                     </ListBox>
                 </Grid>
             </Grid>
+        <Label x:Name="TotalCookiesGeneratedLabel" 
+        Content="{Binding TotalCookiesEverCollected, StringFormat={}{0:N0}, Mode=OneWay}" 
+        HorizontalAlignment="Center" 
+        VerticalAlignment="Top" 
+        Background="White" 
+        Padding="10" 
+        Margin="0,10,0,0"/>
         </Grid>
     </Viewbox>
 </Window>

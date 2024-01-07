@@ -31,6 +31,20 @@ namespace celis_michiel_c_sherp
 		private const double PriceIncreaseFactor = 1.15;
 		public const double InitialCookies = 1000000;
 		/// Properties
+		private Label TotalCookiesGeneratedLabel;
+		private double totalCookiesEverCollected;
+		public double TotalCookiesEverCollected
+		{
+			get { return totalCookiesEverCollected; }
+			set
+			{
+				if (totalCookiesEverCollected != value)
+				{
+					totalCookiesEverCollected = value;
+					OnPropertyChanged(nameof(TotalCookiesEverCollected));
+				}
+			}
+		}
 		private double cookieCount;
 		public double CookieCount
 		{
@@ -506,6 +520,8 @@ namespace celis_michiel_c_sherp
 			double totalCookiesPerSecond = upgradesList.Sum(item => item.Purchased * item.CookiesPerSecond * amplificationFactor);
 			TotalCookiesPerSecondLabel.Content = FormatLargeNumber(totalCookiesPerSecond).ToString();
 
+			TotalCookiesGeneratedLabel.Content = FormatLargeNumber(TotalCookiesEverCollected).ToString();
+
 			// Check if any item in upgradesList has been purchased
 			if (upgradesList.Any(item => item.Purchased > 0))
 			{
@@ -527,14 +543,21 @@ namespace celis_michiel_c_sherp
 			AnimateClick(CookieImage);
 		}
 		// Timer CookieClick
-        private void CookieClick(double cookiesToAdd)
-        {
-            cookieCount += cookiesToAdd;
-            CookieCounter.Text = FormatLargeNumber(Math.Round(cookieCount,2)).ToString();
-            this.Title = $"Cookie Clicker : {Math.Round(cookieCount,2)}";
+		private void CookieClick(double cookiesToAdd)
+		{
+			// Increase the number of cookies
+			cookieCount += cookiesToAdd;
 
+			// Increase the total number of cookies ever collected
+			TotalCookiesEverCollected += cookiesToAdd;
+
+			// Update the UI
+			CookieCounter.Text = FormatLargeNumber(Math.Round(cookieCount,2)).ToString();
+			this.Title = $"Cookie Clicker : {Math.Round(cookieCount,2)}";
+
+			// Update the visibility of the investment buttons
 			UpdateButtonStates();
-        }
+		}
 		/// Calculations
 		private int CalculateAmplificationFactor(List<MenuItem> items)
 		{
