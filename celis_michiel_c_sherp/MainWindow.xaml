@@ -44,7 +44,7 @@
                         <Image x:Name="FarmImage" Source="/res/farm.png" IsHitTestVisible="False"/>
                     </Button>
                     <Border CornerRadius="10" Background="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Padding="10">
-                        <TextBlock x:Name="FarmCounter" Text="0" MinWidth="50px" TextAlignment="Center"/>
+                        <TextBlock x:Name="FarmCounter" Text="0" MinWidth="20px" TextAlignment="Center"/>
                     </Border>
                 </Grid>
 
@@ -53,7 +53,7 @@
                         <Image x:Name="MineImage" Source="/res/mine.png" IsHitTestVisible="False"/>
                     </Button>
                     <Border CornerRadius="10" Background="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Padding="10">
-                        <TextBlock x:Name="MineCounter" Text="0" MinWidth="50px" TextAlignment="Center"/>
+                        <TextBlock x:Name="MineCounter" Text="0" MinWidth="20px" TextAlignment="Center"/>
                     </Border>
                 </Grid>
 
@@ -62,7 +62,7 @@
                         <Image x:Name="FactoryImage" Source="/res/factory.png" IsHitTestVisible="False"/>
                     </Button>
                     <Border CornerRadius="10" Background="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Padding="10">
-                        <TextBlock x:Name="FactoryCounter" Text="0" MinWidth="50px" TextAlignment="Center"/>
+                        <TextBlock x:Name="FactoryCounter" Text="0" MinWidth="20px" TextAlignment="Center"/>
                     </Border>
                 </Grid>
 
@@ -71,7 +71,7 @@
                         <Image x:Name="BankImage" Source="/res/bank.png" IsHitTestVisible="False"/>
                     </Button>
                     <Border CornerRadius="10" Background="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Padding="10">
-                        <TextBlock x:Name="BankCounter" Text="0" MinWidth="50px" TextAlignment="Center"/>
+                        <TextBlock x:Name="BankCounter" Text="0" MinWidth="20px" TextAlignment="Center"/>
                     </Border>
                 </Grid>
 
@@ -80,7 +80,7 @@
                         <Image x:Name="TempleImage" Source="/res/temple.png" IsHitTestVisible="False"/>
                     </Button>
                     <Border CornerRadius="10" Background="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Padding="10">
-                        <TextBlock x:Name="TempleCounter" Text="0" MinWidth="50px" TextAlignment="Center"/>
+                        <TextBlock x:Name="TempleCounter" Text="0" MinWidth="20px" TextAlignment="Center"/>
                     </Border>
                 </Grid>
 
@@ -89,7 +89,7 @@
                         <Image x:Name="WizardTowerImage" Source="/res/wizardtower.png" IsHitTestVisible="False"/>
                     </Button>
                     <Border CornerRadius="10" Background="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Padding="10">
-                        <TextBlock x:Name="WizardTowerCounter" Text="0" MinWidth="50px" TextAlignment="Center"/>
+                        <TextBlock x:Name="WizardTowerCounter" Text="0" MinWidth="20px" TextAlignment="Center"/>
                     </Border>
                 </Grid>
 
@@ -98,7 +98,7 @@
                         <Image x:Name="ShipmentImage" Source="/res/shipment.png" IsHitTestVisible="False"/>
                     </Button>
                     <Border CornerRadius="10" Background="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Padding="10">
-                        <TextBlock x:Name="ShipmentCounter" Text="0" MinWidth="50px" TextAlignment="Center"/>
+                        <TextBlock x:Name="ShipmentCounter" Text="0" MinWidth="20px" TextAlignment="Center"/>
                     </Border>
                 </Grid>
 
@@ -107,7 +107,7 @@
                         <Image x:Name="AlchemyLabImage" Source="/res/alchemylab.png" IsHitTestVisible="False"/>
                     </Button>
                     <Border CornerRadius="10" Background="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Padding="10">
-                        <TextBlock x:Name="AlchemyLabCounter" Text="0" MinWidth="50px" TextAlignment="Center"/>
+                        <TextBlock x:Name="AlchemyLabCounter" Text="0" MinWidth="20px" TextAlignment="Center"/>
                     </Border>
                 </Grid>
 
@@ -116,7 +116,7 @@
                         <Image x:Name="PortalImage" Source="/res/portal.png" IsHitTestVisible="False"/>
                     </Button>
                     <Border CornerRadius="10" Background="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Padding="10">
-                        <TextBlock x:Name="PortalCounter" Text="0" MinWidth="50px" TextAlignment="Center"/>
+                        <TextBlock x:Name="PortalCounter" Text="0" MinWidth="20px" TextAlignment="Center"/>
                     </Border>
                 </Grid>
             </Grid>
@@ -174,7 +174,7 @@
                                         IsEnabled="{Binding ButtonIsEnabled}"
                                         DataContext="{Binding}"
                                         Click="PurchaseItem">
-                                    <Grid>
+                                    <Grid HorizontalAlignment="Left">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="64"/>
                                             <ColumnDefinition/>
@@ -186,14 +186,36 @@
                                                 <RowDefinition/>
                                             </Grid.RowDefinitions>
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="120"/>
+                                                <ColumnDefinition Width="150"/>
                                                 <ColumnDefinition Width="120"/>
                                                 <ColumnDefinition Width="50"/>
                                             </Grid.ColumnDefinitions>
-                                            <TextBlock Grid.Column="0" Text="{Binding Title}" FontSize="18"/>
-                                            <TextBlock Grid.Column="1" Text="{Binding Price}" FontSize="18"/>
-                                            <TextBlock Grid.Column="2" Text="{Binding Purchased}" FontSize="18"/>
-                                            <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Description}" FontSize="14"/>
+                                            <TextBlock Grid.Column="0" Text="{Binding Title}" FontSize="18" Margin="10,0,0,0"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding Price}" FontSize="18">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsAchievement}" Value="True">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                            <TextBlock Grid.Column="2" Text="{Binding Purchased}" FontSize="18">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsAchievement}" Value="True">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                            <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding Description}" FontSize="14" Margin="10,0,0,0"/>
                                         </Grid>
                                     </Grid>
                                 </Button>

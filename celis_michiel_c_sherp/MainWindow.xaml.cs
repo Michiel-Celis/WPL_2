@@ -25,6 +25,8 @@ namespace celis_michiel_c_sherp
 		/// Declarations
 		DispatcherTimer timerCalc = new DispatcherTimer();
 		DispatcherTimer timerAnim = new DispatcherTimer();
+		private Stopwatch gameTimer = new Stopwatch();
+
 		private double cookieCount;
 		public double CookieCount
 		{
@@ -76,22 +78,64 @@ namespace celis_michiel_c_sherp
 				UpdateCounters();
 			}
 		}
+		public void PurchasePowerup(MenuItem menuItem)
+		{
+			Debug.WriteLine("PurchasePowerup");
+			// If this MenuItem has already been purchased, return without doing anything.
+			if (menuItem.Purchased > 0)
+			{
+				return;
+			}
+
+			if (CookieCount >= menuItem.Price)
+			{
+				// Reduce the cookie count by the price of the powerup.
+				CookieCount -= menuItem.Price;
+
+				// Increase the purchased amount of the powerup.
+				menuItem.Purchased++;
+
+				// Setter to hide the button
+				menuItem.IsPurchasable = false;
+
+				// Update the enabled state of the buttons.
+				UpdateButtonStates();
+
+				// Update the visibility of the menu items.
+				UpdateMenuItemVisibility();
+
+				UpdateCounters();
+
+				// Hide the powerup after it's bought.
+				var grid = this.FindName(menuItem.Title + "Grid") as Grid;
+				if (grid != null)
+				{
+					grid.Visibility = Visibility.Collapsed;
+				}
+			}
+		}
+		
 
 
 		public void UpdateMenuItemVisibility()
 		{
+			// Update the visibility of the first item.
+			MenuItem firstItem = (MenuItem)MenuItems.Items[0];
+			firstItem.ButtonVisibility = firstItem.IsPurchasable ? Visibility.Visible : Visibility.Collapsed;
+
+			// Update the visibility of the rest of the items.
 			for (int i = 1; i < MenuItems.Items.Count; i++)
 			{
 				MenuItem previousItem = (MenuItem)MenuItems.Items[i - 1];
 				if (previousItem.Purchased > 0)
 				{
 					MenuItem currentItem = (MenuItem)MenuItems.Items[i];
-					currentItem.ButtonVisibility = Visibility.Visible;
+					currentItem.ButtonVisibility = currentItem.IsPurchasable ? Visibility.Visible : Visibility.Collapsed;
 				}
 			}
 
 			// Refresh the ItemsSource of the ListBox.
-    		MenuItems.Items.Refresh();
+			MenuItems.Items.Refresh();
 		}
 
         /// Menu Buttons
@@ -146,6 +190,16 @@ namespace celis_michiel_c_sherp
 					}
 				}
 			}
+			private bool _isPurchasable = true;
+			public bool IsPurchasable
+			{
+				get { return _isPurchasable; }
+				set
+				{
+					_isPurchasable = value;
+					OnPropertyChanged(nameof(IsPurchasable));
+				}
+			}
 			private int purchased;
 			public int Purchased
 			{
@@ -159,6 +213,36 @@ namespace celis_michiel_c_sherp
 					}
 				}
 			}
+			private bool _isPowerup = false;
+
+			public bool IsPowerup
+			{
+				get { return _isPowerup; }
+				set
+				{
+					if (_isPowerup != value)
+					{
+						_isPowerup = value;
+						OnPropertyChanged("IsPowerup");
+					}
+				}
+			}
+
+			private bool _isAchievement = false;
+			public bool IsAchievement
+			{
+				get { return _isAchievement; }
+				set
+				{
+					if (_isAchievement != value)
+					{
+						_isAchievement = value;
+						OnPropertyChanged("IsAchievement");
+					}
+				}
+			}
+
+			
             private Visibility buttonVisibility;
 			public Visibility ButtonVisibility
 			{
@@ -214,33 +298,37 @@ namespace celis_michiel_c_sherp
 		/// they appear when their corresponding Upgrade has been bought 50 times.
         List<MenuItem> powerUpsList = new List<MenuItem>
         {
-            new MenuItem { Logo = "/res/cursor.png"			, Title = "Parkinson Clicks", Description = "Cursors are twice as Speedy"		, Price = 10 		, Purchased = 0 	, ButtonVisibility = Visibility.Visible	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/grandma.png"		, Title = "Gym Grandmas"	, Description = "Grandmas are twice as powerfull"	, Price = 50 		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/farm.png"			, Title = "Robot Farms"		, Description = "Farms are twice as Cookiefull"		, Price = 100 		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/mine.png"			, Title = "Miner Grandmas"	, Description = "Mines are twice as rich"			, Price = 2000 		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-			new MenuItem { Logo = "/res/factory.png"		, Title = "Slave Factories"	, Description = "Factory are twice as productive"	, Price = 2000 		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-			new MenuItem { Logo = "/res/bank.png"			, Title = "Inflation scammu", Description = "Banks are twice as Effective"		, Price = 2000 		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-			new MenuItem { Logo = "/res/temple.png"			, Title = "The Holy Book"	, Description = "Temples are twice as Subdueing"	, Price = 2000 		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-			new MenuItem { Logo = "/res/wizard-tower.png"	, Title = "Magic Powder"	, Description = "Wizards are twice as Hyped"		, Price = 2000 		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-			new MenuItem { Logo = "/res/shipment.png"		, Title = "Amazon.com"		, Description = "Shipments are twice as fast"		, Price = 2000 		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-			new MenuItem { Logo = "/res/alchemylab.png"		, Title = "Love Molecule"	, Description = "Labs are twice as wonderfull"		, Price = 2000 		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-			new MenuItem { Logo = "/res/portal.png"			, Title = "Stargate Crew"	, Description = "Portals are twice as Portaly"		, Price = 2000 		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false }
+            new MenuItem { Logo = "/res/cursor.png"			, Title = "Parkinson Clicks", Description = "Cursors are twice as Speedy"		, Price = 150 		, Purchased = 0 	, IsPowerup = true , ButtonVisibility = Visibility.Visible	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/grandma.png"		, Title = "Gym Grandmas"	, Description = "Grandmas are twice as powerfull"	, Price = 1000 		, Purchased = 0 	, IsPowerup = true , ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/farm.png"			, Title = "Robot Farms"		, Description = "Farms are twice as Cookiefull"		, Price = 11000 	, Purchased = 0 	, IsPowerup = true , ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/mine.png"			, Title = "Miner Grandmas"	, Description = "Mines are twice as rich"			, Price = 120000 	, Purchased = 0 	, IsPowerup = true , ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+			new MenuItem { Logo = "/res/factory.png"		, Title = "Slave Factories"	, Description = "Factory are twice as productive"	, Price = 1300000 	, Purchased = 0 	, IsPowerup = true , ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+			new MenuItem { Logo = "/res/bank.png"			, Title = "Inflation scammu", Description = "Banks are twice as Effective"		, Price = 20000000 	, Purchased = 0 	, IsPowerup = true , ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+			new MenuItem { Logo = "/res/temple.png"			, Title = "The Holy Book"	, Description = "Temples are twice as Subdueing"	, Price = 50000000	, Purchased = 0 	, IsPowerup = true , ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+			new MenuItem { Logo = "/res/wizard-tower.png"	, Title = "Magic Powder"	, Description = "Wizards are twice as Hyped"		, Price = 100000000 , Purchased = 0 	, IsPowerup = true , ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+			new MenuItem { Logo = "/res/shipment.png"		, Title = "Amazon.com"		, Description = "Shipments are twice as fast"		, Price = 200000000 , Purchased = 0 	, IsPowerup = true , ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+			new MenuItem { Logo = "/res/alchemylab.png"		, Title = "Love Molecule"	, Description = "Labs are twice as wonderfull"		, Price = 500000000 , Purchased = 0 	, IsPowerup = true , ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+			new MenuItem { Logo = "/res/portal.png"			, Title = "Stargate Crew"	, Description = "Portals are twice as Portaly"		, Price = 1000000000 , Purchased = 0 	, IsPowerup = true , ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false }
         };
 		/// Achievements
 		/// Achievements can not be bought.
 		/// they appear when requirements are met.
         List<MenuItem> achievementsList = new List<MenuItem>
         {
-            new MenuItem { Logo = "/res/cursor.png"			, Title = "Cursor"		, initPrice = 10	, Price = 10 		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/grandma.png"		, Title = "Grandma"		, initPrice = 10	, Price = 100 		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/farm.png"			, Title = "Farm"		, initPrice = 10	, Price = 100 		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/mine.png"			, Title = "Mine"		, initPrice = 10	, Price = 200 		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false }
+            new MenuItem { Logo = "/res/smiley.png"			, Title = "Code cheater"	, IsAchievement = true		, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+			new MenuItem { Logo = "/res/smiley.png"			, Title = "Fast Clicker"	, IsAchievement = true		, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false }
         };
 
 
         public MainWindow()
         {
             InitializeComponent();
+
+			// gameTimer
+			gameTimer.Start();
+
+			// Use this to cheat the game
+			cookieCount = 10000;
 
 			DataContext = this;
             /// Menu button Declaration
@@ -347,8 +435,23 @@ namespace celis_michiel_c_sherp
 			// Get the corresponding menu item.
 			var menuItem = (MenuItem)button.DataContext;
 
-			// Purchase the upgrade.
-			PurchaseUpgrade(menuItem);
+			// Check if menuItem is null
+			if (menuItem == null)
+			{
+				// If menuItem is null, log an error message and return
+				Console.WriteLine("Error: No MenuItem found with the given title.");
+				return;
+			}
+
+			// Check if the menuItem is in the powerUpsList
+			if (powerUpsList.Contains(menuItem))
+			{
+				PurchasePowerup(menuItem);
+			}
+			else
+			{
+				PurchaseUpgrade(menuItem);
+			}
 		}
 
 		/// 3x3 Grid Functions
@@ -398,12 +501,6 @@ namespace celis_michiel_c_sherp
 				}
 			}
 		}
-
-
-
-
-
-
 		private void Timer_Tick(object sender, EventArgs e)
 		{
 			// Calculate the total amplification factor from the power-ups
@@ -426,6 +523,8 @@ namespace celis_michiel_c_sherp
 			{
 				AnimateClick(CookieImage);
 			}
+
+			CheckAchievements();
 		}
 		private int CalculateAmplificationFactor(List<MenuItem> items)
 		{
@@ -462,6 +561,36 @@ namespace celis_michiel_c_sherp
 			}
 		}
 
+		private void CheckAchievements()
+		{
+			// Check if the player has achieved more than 1000 cookies in the first 10 seconds.
+			if (CookieCount > 1000 && gameTimer.Elapsed.TotalSeconds <= 10)
+			{
+				// Find the achievement in the achievementsList.
+				MenuItem achievement = achievementsList.FirstOrDefault(a => a.Title == "Code cheater");
+
+				// If the achievement was found, update its properties.
+				if (achievement != null)
+				{
+					achievement.ButtonVisibility = Visibility.Visible;
+					achievement.ButtonIsEnabled = true;
+					
+				}
+			}
+
+			if (CookieCount > 10000 && gameTimer.Elapsed.TotalSeconds <= 600)
+			{
+				// Find the achievement in the achievementsList.
+				MenuItem achievement = achievementsList.FirstOrDefault(a => a.Title == "Fast Clicker");
+
+				// If the achievement was found, update its properties.
+				if (achievement != null)
+				{
+					achievement.ButtonVisibility = Visibility.Visible;
+					achievement.ButtonIsEnabled = true;
+				}
+			}
+		}
         /// Animations
         private void AnimateClick(Image image)
         {
