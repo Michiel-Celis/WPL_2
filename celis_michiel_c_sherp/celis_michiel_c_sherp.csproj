@@ -121,5 +121,11 @@
     <Resource Include="res\temple.png" />
     <Resource Include="res\wizardtower.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\planet_01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\Planet.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

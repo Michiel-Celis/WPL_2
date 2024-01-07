@@ -29,6 +29,7 @@ namespace celis_michiel_c_sherp
 		private Stopwatch gameTimer = new Stopwatch();
 		/// Constants
 		private const double PriceIncreaseFactor = 1.15;
+		public const double InitialCookies = 1000000;
 		/// Properties
 		private double cookieCount;
 		public double CookieCount
@@ -331,7 +332,7 @@ namespace celis_michiel_c_sherp
 			gameTimer.Start();
 
 			// Use this to cheat the game
-			cookieCount = 10000;
+			cookieCount = InitialCookies;
 
 			DataContext = this;
             /// Menu button Declaration

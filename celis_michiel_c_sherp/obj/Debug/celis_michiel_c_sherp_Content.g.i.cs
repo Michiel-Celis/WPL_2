@@ -8,12 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("res/bank.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("res/factory.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("res/lab.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("res/portal.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("res/shipment.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("res/temple.png")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("res/wizard-tower.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("res/planet.png")]
 
 
