@@ -22,9 +22,10 @@ namespace celis_michiel_c_sherp
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         /// Declarations
-		DispatcherTimer timer = new DispatcherTimer();
-		private int cookieCount;
-		public int CookieCount
+		DispatcherTimer timerCalc = new DispatcherTimer();
+		DispatcherTimer timerAnim = new DispatcherTimer();
+		private double cookieCount;
+		public double CookieCount
 		{
 			get { return cookieCount; }
 			set
@@ -248,13 +249,16 @@ namespace celis_michiel_c_sherp
             CookieImage.MouseEnter += (s, e) => { if (isMouseDown) CookieClick(); };
 
 			// Set the timer interval to one second
-			timer.Interval = TimeSpan.FromSeconds(1);
+			timerCalc.Interval = TimeSpan.FromMilliseconds(10);
+			timerAnim.Interval = TimeSpan.FromSeconds(1);
 
 			// Add an event handler for the timer tick event
-			timer.Tick += Timer_Tick;
+			timerCalc.Tick += Timer_Tick;
+			timerAnim.Tick += Timer_Click;
 
 			// Start the timer
-			timer.Start();
+			timerCalc.Start();
+			timerAnim.Start();
         }
 
         /// Event Actions
@@ -266,18 +270,17 @@ namespace celis_michiel_c_sherp
 
 			// Multiply the number of cookies added by the number of cursors purchased
 			CookieClick(1 + (int)(cursorsPurchased / 10));
+			AnimateClick(CookieImage);
 		}
 		// Time CookieClick
-        private void CookieClick(int cookiesToAdd)
+        private void CookieClick(double cookiesToAdd)
         {
-            AnimateClick(CookieImage);
             cookieCount += cookiesToAdd;
-            CookieCounter.Text = cookieCount.ToString();
-            this.Title = $"Cookie Clicker : {cookieCount}";
+            CookieCounter.Text = Math.Round(cookieCount,2).ToString();
+            this.Title = $"Cookie Clicker : {Math.Round(cookieCount,2)}";
 
 			UpdateButtonStates();
         }
-
         /// MenuActions
         private void ShowMenu(Button clickedButton,string header, List<MenuItem> items)
         {
@@ -344,7 +347,14 @@ namespace celis_michiel_c_sherp
 			// Perform the calculation for each item in the upgrades list
 			CalculateCookies(upgradesList, amplificationFactor);
 		}
-
+		private void Timer_Click(object sender, EventArgs e)
+		{
+			// Check if any item in powerUpsList has been purchased
+			if (upgradesList.Any(item => item.Purchased > 0))
+			{
+				AnimateClick(CookieImage);
+			}
+		}
 		private int CalculateAmplificationFactor(List<MenuItem> items)
 		{
 			int amplificationFactor = 1;
@@ -366,9 +376,9 @@ namespace celis_michiel_c_sherp
 				{
 					// Calculate the number of cookies a single purchase adds per second
 					double cookiesPerSecondSingle = item.CookiesPerSecond * amplificationFactor;
-
+					double cookiesPer10msSingle = cookiesPerSecondSingle/100;
 					// Add this number to the total cookie count
-					CookieClick(cookiesPerSecondSingle * item.Purchased);
+					CookieClick(cookiesPer10msSingle * item.Purchased);
 
 					// Calculate the total number of cookies this item is currently adding per second
 					double cookiesPerSecondTotal = cookiesPerSecondSingle * item.Purchased;
