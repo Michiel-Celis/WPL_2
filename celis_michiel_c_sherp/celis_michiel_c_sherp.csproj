@@ -133,5 +133,8 @@
   <ItemGroup>
     <Resource Include="res\Planet.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\backgroundmenu.jpeg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

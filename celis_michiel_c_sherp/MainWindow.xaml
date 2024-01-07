@@ -167,7 +167,10 @@
 
          <!-- Menu Overlay -->
         <Grid x:Name="Overlay" Visibility="Hidden" Background="#00000000" Height="400" MouseDown="Overlay_MouseDown">
-            <Grid Width="400" Height="400" Background="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid Width="400" Height="400" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid.Background>
+                    <ImageBrush ImageSource="/res/backgroundmenu.jpeg"/>
+                </Grid.Background>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>

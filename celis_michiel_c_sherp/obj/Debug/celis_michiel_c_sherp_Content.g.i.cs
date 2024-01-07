@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("res/planet.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("res/backgroundmenu.jpeg")]
 
 
