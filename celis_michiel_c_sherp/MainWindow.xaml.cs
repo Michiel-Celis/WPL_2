@@ -29,9 +29,9 @@ namespace celis_michiel_c_sherp
 		private Stopwatch gameTimer = new Stopwatch();
 		/// Constants
 		private const double PriceIncreaseFactor = 1.15;
-		public const double InitialCookies = 1000000;
+		public const double InitialCookies = 0;
 		/// Properties
-		private Label TotalCookiesGeneratedLabel;
+		// private Label TotalCookiesGeneratedLabel;
 		private double totalCookiesEverCollected;
 		public double TotalCookiesEverCollected
 		{

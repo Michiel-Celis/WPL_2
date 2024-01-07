@@ -236,7 +236,7 @@
             </Grid>
         <Label x:Name="TotalCookiesGeneratedLabel" 
         Content="{Binding TotalCookiesEverCollected, StringFormat={}{0:N0}, Mode=OneWay}" 
-        HorizontalAlignment="Center" 
+        HorizontalAlignment="Right" 
         VerticalAlignment="Top" 
         Background="White" 
         Padding="10" 
