@@ -100,5 +100,26 @@
   <ItemGroup>
     <Resource Include="res\cookie.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\cursor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\grandma.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\farm.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\mine.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\bank.png" />
+    <Resource Include="res\factory.png" />
+    <Resource Include="res\alchemylab.png" />
+    <Resource Include="res\portal.png" />
+    <Resource Include="res\shipment.png" />
+    <Resource Include="res\temple.png" />
+    <Resource Include="res\wizardtower.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

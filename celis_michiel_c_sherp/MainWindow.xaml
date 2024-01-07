@@ -32,15 +32,93 @@
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
-                    <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
-                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <!-- Add your 4x4 grid content here -->
+                <!-- Add your 3x3 grid content here -->
+                <Grid x:Name="FarmGrid" Grid.Row="0" Grid.Column="0">
+                    <Button Click="GridButton_Click" Background="Transparent" BorderBrush="Transparent" Tag="Farm">
+                        <Image x:Name="FarmImage" Source="/res/farm.png" IsHitTestVisible="False"/>
+                    </Button>
+                    <Border CornerRadius="10" Background="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Padding="10">
+                        <TextBlock x:Name="FarmCounter" Text="0" MinWidth="50px" TextAlignment="Center"/>
+                    </Border>
+                </Grid>
+
+                <Grid x:Name="MineGrid" Grid.Row="0" Grid.Column="1">
+                    <Button Click="GridButton_Click" Background="Transparent" BorderBrush="Transparent" Tag="Mine">
+                        <Image x:Name="MineImage" Source="/res/mine.png" IsHitTestVisible="False"/>
+                    </Button>
+                    <Border CornerRadius="10" Background="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Padding="10">
+                        <TextBlock x:Name="MineCounter" Text="0" MinWidth="50px" TextAlignment="Center"/>
+                    </Border>
+                </Grid>
+
+                <Grid x:Name="FactoryGrid" Grid.Row="0" Grid.Column="2">
+                    <Button Click="GridButton_Click" Background="Transparent" BorderBrush="Transparent" Tag="Factory">
+                        <Image x:Name="FactoryImage" Source="/res/factory.png" IsHitTestVisible="False"/>
+                    </Button>
+                    <Border CornerRadius="10" Background="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Padding="10">
+                        <TextBlock x:Name="FactoryCounter" Text="0" MinWidth="50px" TextAlignment="Center"/>
+                    </Border>
+                </Grid>
+
+                <Grid x:Name="BankGrid" Grid.Row="1" Grid.Column="0">
+                    <Button Click="GridButton_Click" Background="Transparent" BorderBrush="Transparent" Tag="Bank">
+                        <Image x:Name="BankImage" Source="/res/bank.png" IsHitTestVisible="False"/>
+                    </Button>
+                    <Border CornerRadius="10" Background="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Padding="10">
+                        <TextBlock x:Name="BankCounter" Text="0" MinWidth="50px" TextAlignment="Center"/>
+                    </Border>
+                </Grid>
+
+                <Grid x:Name="TempleGrid" Grid.Row="1" Grid.Column="1">
+                    <Button Click="GridButton_Click" Background="Transparent" BorderBrush="Transparent" Tag="Temple">
+                        <Image x:Name="TempleImage" Source="/res/temple.png" IsHitTestVisible="False"/>
+                    </Button>
+                    <Border CornerRadius="10" Background="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Padding="10">
+                        <TextBlock x:Name="TempleCounter" Text="0" MinWidth="50px" TextAlignment="Center"/>
+                    </Border>
+                </Grid>
+
+                <Grid x:Name="WizardTowerGrid" Grid.Row="1" Grid.Column="2">
+                    <Button Click="GridButton_Click" Background="Transparent" BorderBrush="Transparent" Tag="WizardTower">
+                        <Image x:Name="WizardTowerImage" Source="/res/wizardtower.png" IsHitTestVisible="False"/>
+                    </Button>
+                    <Border CornerRadius="10" Background="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Padding="10">
+                        <TextBlock x:Name="WizardTowerCounter" Text="0" MinWidth="50px" TextAlignment="Center"/>
+                    </Border>
+                </Grid>
+
+                <Grid x:Name="ShipmentGrid" Grid.Row="2" Grid.Column="0">
+                    <Button Click="GridButton_Click" Background="Transparent" BorderBrush="Transparent" Tag="Shipment">
+                        <Image x:Name="ShipmentImage" Source="/res/shipment.png" IsHitTestVisible="False"/>
+                    </Button>
+                    <Border CornerRadius="10" Background="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Padding="10">
+                        <TextBlock x:Name="ShipmentCounter" Text="0" MinWidth="50px" TextAlignment="Center"/>
+                    </Border>
+                </Grid>
+
+                <Grid x:Name="AlchemyLabGrid" Grid.Row="2" Grid.Column="1">
+                    <Button Click="GridButton_Click" Background="Transparent" BorderBrush="Transparent" Tag="AlchemyLab">
+                        <Image x:Name="AlchemyLabImage" Source="/res/alchemylab.png" IsHitTestVisible="False"/>
+                    </Button>
+                    <Border CornerRadius="10" Background="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Padding="10">
+                        <TextBlock x:Name="AlchemyLabCounter" Text="0" MinWidth="50px" TextAlignment="Center"/>
+                    </Border>
+                </Grid>
+
+                <Grid x:Name="PortalGrid" Grid.Row="2" Grid.Column="2">
+                    <Button Click="GridButton_Click" Background="Transparent" BorderBrush="Transparent" Tag="Portal">
+                        <Image x:Name="PortalImage" Source="/res/portal.png" IsHitTestVisible="False"/>
+                    </Button>
+                    <Border CornerRadius="10" Background="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Padding="10">
+                        <TextBlock x:Name="PortalCounter" Text="0" MinWidth="50px" TextAlignment="Center"/>
+                    </Border>
+                </Grid>
             </Grid>
 
             <!-- Cookie Image -->
@@ -50,7 +128,6 @@
                     <TextBlock x:Name="CookieCounter" Text="0" MinWidth="50px" TextAlignment="Center"/>
                 </Border>
             </Grid>
-
         </Grid>
 
         <!-- Bottom Row -->
@@ -96,7 +173,7 @@
                                         Visibility="{Binding ButtonVisibility}" 
                                         IsEnabled="{Binding ButtonIsEnabled}"
                                         DataContext="{Binding}"
-                                        Click="OnButtonClick">
+                                        Click="PurchaseItem">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="64"/>
