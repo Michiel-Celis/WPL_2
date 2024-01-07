@@ -290,9 +290,9 @@ namespace celis_michiel_c_sherp
             new MenuItem { Logo = "/res/farm.png"           , Title = "Farm"        	, CookiesPerSecond = 8		, InitPrice = 1100		, Price = 1100		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
             new MenuItem { Logo = "/res/mine.png"           , Title = "Mine"        	, CookiesPerSecond = 47		, InitPrice = 12000		, Price = 12000		, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
             new MenuItem { Logo = "/res/factory.png"        , Title = "Factory"     	, CookiesPerSecond = 260	, InitPrice = 130000	, Price = 130000	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/bank.png"           , Title = "Bank"        	, CookiesPerSecond = 500	, InitPrice = 200000	, Price = 200000	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/temple.png"         , Title = "Temple"      	, CookiesPerSecond = 1000	, InitPrice = 500000	, Price = 500000	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
-            new MenuItem { Logo = "/res/wizardtower.png"  	, Title = "WizardTower"		, CookiesPerSecond = 5000	, InitPrice = 1000000	, Price = 1000000	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/bank.png"           , Title = "Bank"        	, CookiesPerSecond = 1400	, InitPrice = 1400000	, Price = 200000	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/temple.png"         , Title = "Temple"      	, CookiesPerSecond = 7800	, InitPrice = 20000000	, Price = 500000	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
+            new MenuItem { Logo = "/res/wizardtower.png"  	, Title = "WizardTower"		, CookiesPerSecond = 9000	, InitPrice = 1000000	, Price = 1000000	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
             new MenuItem { Logo = "/res/shipment.png"       , Title = "Shipment"    	, CookiesPerSecond = 10000	, InitPrice = 20000000	, Price = 20000000	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
             new MenuItem { Logo = "/res/alchemylab.png"     , Title = "AlchemyLab" 		, CookiesPerSecond = 20000	, InitPrice = 50000000 	, Price = 50000000 	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false },
             new MenuItem { Logo = "/res/portal.png"         , Title = "Portal"      	, CookiesPerSecond = 500000	, InitPrice = 100000000	, Price = 100000000	, Purchased = 0 	, ButtonVisibility = Visibility.Hidden	, ButtonIsEnabled = false }
@@ -504,7 +504,7 @@ namespace celis_michiel_c_sherp
 
 			// Calculate the total cookies per second considering both the upgrades purchased and the amplification factor
 			double totalCookiesPerSecond = upgradesList.Sum(item => item.Purchased * item.CookiesPerSecond * amplificationFactor);
-			TotalCookiesPerSecondLabel.Content = totalCookiesPerSecond.ToString();
+			TotalCookiesPerSecondLabel.Content = FormatLargeNumber(totalCookiesPerSecond).ToString();
 
 			// Check if any item in upgradesList has been purchased
 			if (upgradesList.Any(item => item.Purchased > 0))
@@ -530,7 +530,7 @@ namespace celis_michiel_c_sherp
         private void CookieClick(double cookiesToAdd)
         {
             cookieCount += cookiesToAdd;
-            CookieCounter.Text = Math.Round(cookieCount,2).ToString();
+            CookieCounter.Text = FormatLargeNumber(Math.Round(cookieCount,2)).ToString();
             this.Title = $"Cookie Clicker : {Math.Round(cookieCount,2)}";
 
 			UpdateButtonStates();
@@ -565,8 +565,8 @@ namespace celis_michiel_c_sherp
 					double cookiesPerSecondTotal = cookiesPerSecondSingle * item.Purchased;
 
 					// Update the item's description
-					item.Description = $"Add {cookiesPerSecondSingle} cookies/second";
-					item.DescriptionTooltip = $"Generates {cookiesPerSecondTotal} cookies per second.";
+					item.Description = $"Add {FormatLargeNumber(cookiesPerSecondSingle)} cookies/second";
+					item.DescriptionTooltip = $"Generates {FormatLargeNumber(cookiesPerSecondTotal)} cookies per second.";
 				}
 			}
 		}
@@ -602,7 +602,19 @@ namespace celis_michiel_c_sherp
 			}
 		}
         
-		
+		public static string FormatLargeNumber(double number)
+		{
+			string[] suffixes = { "", " Miljoen", " Miljard", " Biljoen", " Biljard", " Triljoen" };
+
+			int suffixIndex = 0;
+			while (number >= 1000 && suffixIndex < suffixes.Length - 1)
+			{
+				number /= 1000;
+				suffixIndex++;
+			}
+
+			return $"{number:0.##}{suffixes[suffixIndex]}";
+		}
 		
 		/// Animations
         private void AnimateClick(Image image)

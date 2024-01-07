@@ -124,7 +124,7 @@
 
             <!-- Cookie Image -->
             <Grid Grid.Column="1" Margin="20">
-                <Image x:Name="CookieImage" Source="/res/cookie.png" Width="250px"/>
+                <Image x:Name="CookieImage" Source="/res/cookie.png" Width="200px"/>
                 <Border Grid.Column="1" CornerRadius="10" Background="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Padding="10">
                     <TextBlock x:Name="CookieCounter" Text="0" MinWidth="50px" TextAlignment="Center"/>
                 </Border>
