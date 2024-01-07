@@ -124,9 +124,16 @@
 
             <!-- Cookie Image -->
             <Grid Grid.Column="1" Margin="20">
-                <Image x:Name="CookieImage" Source="/res/cookie.png" Width="200px"/>
-                <Border Grid.Column="1" CornerRadius="10" Background="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Padding="10">
-                    <TextBlock x:Name="CookieCounter" Text="0" MinWidth="50px" TextAlignment="Center"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" CornerRadius="10" Background="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Padding="10">
+                    <TextBox x:Name="BakeryTitle" Text="PXL-Bakery" HorizontalAlignment="Center" BorderThickness="0"/>
+                </Border>
+                <Image x:Name="CookieImage" Source="/res/cookie.png" Width="200" Grid.Row="1"/>
+                <Border Grid.Row="1" CornerRadius="10" Background="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Padding="10">
+                    <TextBlock x:Name="CookieCounter" Text="0" MinWidth="50" TextAlignment="Center"/>
                 </Border>
             </Grid>
         </Grid>
